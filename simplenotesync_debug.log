@@ -1,0 +1,65 @@
+2012-04-14T02:01:10::DEBUG::Reading config from /home/ioan/.config/simplenotesync.ini
+2012-04-14T02:01:10::DEBUG::======= Options ========
+2012-04-14T02:01:10::DEBUG::email: [ioan.rogers@gmail.com]
+2012-04-14T02:01:10::DEBUG::password: [******]
+2012-04-14T02:01:10::DEBUG::debug: [1]
+2012-04-14T02:01:10::DEBUG::===== End Options ======
+2012-04-14T02:01:10::INFO::Scanning [7] files in [/home/ioan/Notes]
+2012-04-14T02:01:10::DEBUG::Checking local file [/home/ioan/Notes/Recipes.txt]
+2012-04-14T02:01:10::DEBUG::Looking for metadata for [Recipes.txt]
+2012-04-14T02:01:10::DEBUG::No metadata found
+2012-04-14T02:01:10::DEBUG::Uploading new note
+2012-04-14T02:01:10::DEBUG::Network: getting auth token
+2012-04-14T02:01:11::DEBUG::Network: POST to [https://simple-note.appspot.com/api2/data?auth=C223CC4242A8E8B16FCFFD5EE56147F616D3B843A8E4C75F60C6705888F314CE&email=ioan.rogers@gmail.com]
+2012-04-14T02:01:11::DEBUG::Writing note metadata for [Recipes.txt]
+2012-04-14T02:01:11::DEBUG::Checking local file [/home/ioan/Notes/Testing_Currying.mkdn]
+2012-04-14T02:01:11::DEBUG::Looking for metadata for [Testing_Currying.mkdn]
+2012-04-14T02:01:11::DEBUG::attr: simplenote.systemtags
+2012-04-14T02:01:11::DEBUG::attr: simplenote.key
+2012-04-14T02:01:11::DEBUG::Checking local file [/home/ioan/Notes/This_is_a_note.mkdn]
+2012-04-14T02:01:11::DEBUG::Looking for metadata for [This_is_a_note.mkdn]
+2012-04-14T02:01:11::DEBUG::attr: simplenote.systemtags
+2012-04-14T02:01:11::DEBUG::attr: simplenote.key
+2012-04-14T02:01:11::DEBUG::attr: simplenote.tags
+2012-04-14T02:01:11::DEBUG::Checking local file [/home/ioan/Notes/Cancel_Visa.mkdn]
+2012-04-14T02:01:11::DEBUG::Looking for metadata for [Cancel_Visa.mkdn]
+2012-04-14T02:01:11::DEBUG::attr: simplenote.systemtags
+2012-04-14T02:01:11::DEBUG::attr: simplenote.tags
+2012-04-14T02:01:11::DEBUG::attr: simplenote.key
+2012-04-14T02:01:11::DEBUG::Checking local file [/home/ioan/Notes/Some_stuff.txt]
+2012-04-14T02:01:11::DEBUG::Looking for metadata for [Some_stuff.txt]
+2012-04-14T02:01:11::DEBUG::attr: simplenote.systemtags
+2012-04-14T02:01:11::DEBUG::attr: simplenote.tags
+2012-04-14T02:01:11::DEBUG::attr: simplenote.key
+2012-04-14T02:01:11::DEBUG::Checking local file [/home/ioan/Notes/Possibly_Interesting_Mods_for_Perl.mkdn]
+2012-04-14T02:01:11::DEBUG::Looking for metadata for [Possibly_Interesting_Mods_for_Perl.mkdn]
+2012-04-14T02:01:11::DEBUG::attr: simplenote.key
+2012-04-14T02:01:11::DEBUG::Checking local file [/home/ioan/Notes/test2.mkdn]
+2012-04-14T02:01:11::DEBUG::Looking for metadata for [test2.mkdn]
+2012-04-14T02:01:11::DEBUG::attr: simplenote.systemtags
+2012-04-14T02:01:11::DEBUG::attr: simplenote.key
+2012-04-14T02:01:11::DEBUG::Network: get note index
+2012-04-14T02:01:11::DEBUG::Network: Index returned [6] notes
+2012-04-14T02:01:11::DEBUG::Comparing local and remote lists
+2012-04-14T02:01:11::DEBUG::[c7fe0766844b11e193e3397ccaedbe87] exists locally and remotely
+2012-04-14T02:01:11::DEBUG::Comparing dates: remote [2012-04-12T03:01:21] // local [2012-04-12T03:01:21]
+2012-04-14T02:01:11::DEBUG::[c7fe0766844b11e193e3397ccaedbe87] not modified
+2012-04-14T02:01:11::DEBUG::[7be9b56185d011e1a5a8c96b72edb894] exists locally and remotely
+2012-04-14T02:01:11::DEBUG::Comparing dates: remote [2012-04-14T01:17:41] // local [2012-04-14T01:17:41]
+2012-04-14T02:01:11::DEBUG::[7be9b56185d011e1a5a8c96b72edb894] not modified
+2012-04-14T02:01:11::DEBUG::[46100d3d50363a2efbd222a9711e576d] exists locally and remotely
+2012-04-14T02:01:11::DEBUG::Comparing dates: remote [2012-04-14T01:19:14] // local [2012-04-14T01:19:14]
+2012-04-14T02:01:11::DEBUG::[46100d3d50363a2efbd222a9711e576d] not modified
+2012-04-14T02:01:11::DEBUG::[7aaa451185cf11e19b78bd8bb06edab7] exists locally and remotely
+2012-04-14T02:01:11::DEBUG::Comparing dates: remote [2012-04-14T01:16:21] // local [2012-04-14T01:16:21]
+2012-04-14T02:01:11::DEBUG::[7aaa451185cf11e19b78bd8bb06edab7] not modified
+2012-04-14T02:01:11::DEBUG::[b4007b7585d511e19a2c6db93a0532d8] exists locally and remotely
+2012-04-14T02:01:11::DEBUG::Comparing dates: remote [2012-04-06T00:29:12] // local [2012-04-06T00:29:12]
+2012-04-14T02:01:11::DEBUG::[b4007b7585d511e19a2c6db93a0532d8] not modified
+2012-04-14T02:01:11::DEBUG::[4094156b85ca11e19ac7b363e2af40e2] exists locally and remotely
+2012-04-14T02:01:11::DEBUG::Comparing dates: remote [2012-04-06T00:27:26] // local [2012-04-06T00:27:26]
+2012-04-14T02:01:11::DEBUG::[4094156b85ca11e19ac7b363e2af40e2] not modified
+2012-04-14T02:01:11::INFO::New local files: 1
+2012-04-14T02:01:11::INFO::Updated local files: 0
+2012-04-14T02:01:11::INFO::New remote files: 0
+2012-04-14T02:01:11::INFO::Updated remote files: 0
