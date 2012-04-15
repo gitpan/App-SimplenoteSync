@@ -1,6 +1,11 @@
 Changelog for App-SimplenoteSync
 
-0.1 2012-04-14T02:06:27
+0.1.1 2012-04-15T07:34:36
+ [Ioan Rogers <ioanr@cpan.org>]
+ - Fixed deref syntax for 5.10
+
+
+v0.1 2012-04-14T02:02:46
  [Fletcher T. Penney <fletcher@Ivory-2.local>]
  - Don't download modified notes that are flagged as deleted in index (I
    hope!)

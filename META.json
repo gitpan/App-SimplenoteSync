@@ -71,7 +71,7 @@
          "web" : "https://github.com/ioanrogers/App-SimplenoteSync"
       }
    },
-   "version" : "0.1",
+   "version" : "0.1.1",
    "x_BuiltWith" : {
       "modules" : {
          "Config::INI::Reader" : "0.019",

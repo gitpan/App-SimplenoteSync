@@ -1,6 +1,6 @@
 package App::SimplenoteSync;
 {
-    $App::SimplenoteSync::VERSION = '0.1';
+    $App::SimplenoteSync::VERSION = '0.1.1';
 }
 
 # ABSTRACT: Synchronise text notes with simplenoteapp.com
@@ -156,7 +156,7 @@ sub _write_note_metadata {
         $metadata->{'simplenote.tags'} = $note->join_tags( ',' );
     }
 
-    foreach my $key ( keys $metadata ) {
+    foreach my $key ( keys %$metadata ) {
         setfattr( $note->file, $key, $metadata->{$key} )
           or $self->logger->errorf( 'Error writing note metadata for [%s]', $note->file->basename );
     }
@@ -243,7 +243,7 @@ sub _merge_local_and_remote_lists {
     # if the file SHOULD be trashed? User option, perhaps --restore
 
     # TODO check for tag changes, which don't change date
-    while ( my ( $key, $note ) = each $remote_notes ) {
+    while ( my ( $key, $note ) = each %$remote_notes ) {
         if ( exists $self->notes->{$key} ) {
 
             # which is newer?
@@ -392,7 +392,7 @@ App::SimplenoteSync - Synchronise text notes with simplenoteapp.com
 
 =head1 VERSION
 
-version 0.1
+version 0.1.1
 
 =head1 AUTHORS
 

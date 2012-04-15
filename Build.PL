@@ -23,7 +23,7 @@ my %module_build_args = (
     "Fletcher T. Penney <owner\@fletcherpenney.net>"
   ],
   "dist_name" => "App-SimplenoteSync",
-  "dist_version" => "0.1",
+  "dist_version" => "0.1.1",
   "license" => "gpl",
   "module_name" => "App::SimplenoteSync",
   "recommends" => {},
