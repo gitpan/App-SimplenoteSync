@@ -23,7 +23,7 @@ my %module_build_args = (
     "Fletcher T. Penney <owner\@fletcherpenney.net>"
   ],
   "dist_name" => "App-SimplenoteSync",
-  "dist_version" => "0.1.1",
+  "dist_version" => "0.1.2",
   "license" => "gpl",
   "module_name" => "App::SimplenoteSync",
   "recommends" => {},
@@ -39,6 +39,7 @@ my %module_build_args = (
     "Log::Dispatch" => 0,
     "Log::Dispatch::File" => 0,
     "Log::Dispatch::Screen::Color" => 0,
+    "Method::Signatures" => 0,
     "Moose" => 0,
     "MooseX::Types::Path::Class" => 0,
     "Pod::Usage" => 0,
@@ -47,6 +48,7 @@ my %module_build_args = (
     "WebService::Simplenote::Note" => 0,
     "YAML::Any" => 0,
     "namespace::autoclean" => 0,
+    "open" => 0,
     "perl" => "v5.10.0",
     "strict" => 0,
     "warnings" => 0

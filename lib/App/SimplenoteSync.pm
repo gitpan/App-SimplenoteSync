@@ -1,6 +1,6 @@
 package App::SimplenoteSync;
 {
-    $App::SimplenoteSync::VERSION = '0.1.1';
+    $App::SimplenoteSync::VERSION = '0.1.2';
 }
 
 # ABSTRACT: Synchronise text notes with simplenoteapp.com
@@ -9,8 +9,10 @@ package App::SimplenoteSync;
 # TODO: maybe hash file content to better determine if something has changed?
 
 use v5.10;
+use open qw(:std :utf8);
 use Moose;
 use MooseX::Types::Path::Class;
+use Method::Signatures;
 use YAML::Any;
 use Log::Any qw//;
 use DateTime;
@@ -40,7 +42,9 @@ has stats => (
             new_local     => 0,
             new_remote    => 0,
             update_local  => 0,
-            update_remote => 0
+            update_remote => 0,
+            deleted_local => 0,
+            trash         => 0,
         };
     },
 );
@@ -83,8 +87,7 @@ has notes_dir => (
     trigger  => \&_check_notes_dir,
 );
 
-sub _build_notes_dir {
-    my $self = shift;
+method _build_notes_dir {
 
     my $notes_dir = Path::Class::Dir->new( $ENV{HOME}, 'Notes' );
 
@@ -96,8 +99,7 @@ sub _build_notes_dir {
     return $notes_dir;
 }
 
-sub _check_notes_dir {
-    my $self = shift;
+method _check_notes_dir {
     if ( -d $self->notes_dir ) {
         return;
     }
@@ -105,50 +107,47 @@ sub _check_notes_dir {
       or die "Sync directory [" . $self->notes_dir . "] does not exist\n";
 }
 
-sub _read_note_metadata {
-    my ( $self, $note ) = @_;
-
+method _read_note_metadata( App::SimplenoteSync::Note $note ) {
     $self->logger->debugf( 'Looking for metadata for [%s]', $note->file->basename );
 
-    my @attrs = listfattr( $note->file );
-    if ( !@attrs ) {
+      my @attrs = listfattr( $note->file );
+      if ( !@attrs ) {
 
         # no attrs probably means a new file
         $self->logger->debug( 'No metadata found' );
         return;
     }
 
-    foreach my $attr ( @attrs ) {
+    foreach my $attr ( @attrs ){
         $self->logger->debugf( "attr: $attr" );
-        next if $attr !~ /^simplenote\.(\w+)$/;
+          next if $attr !~ /^simplenote\.(\w+)$/;
         my $key = $1;
-        my $value = getfattr( $note->file, $attr );
+          my $value = getfattr( $note->file, $attr );
 
-        if ( $key eq 'systemtags' || $key eq 'tags' ) {
+          if ( $key eq 'systemtags' || $key eq 'tags' ) {
             my @tags = split ',', $value;
             $note->$key( \@tags );
         } else {
             $note->$key( $value );
         }
-    }
+      }
 
-    return 1;
-}
+      return 1;
+  }
 
-sub _write_note_metadata {
-    my ( $self, $note ) = @_;
-
-    if ( $self->no_local_updates ) {
+  method _write_note_metadata( App::SimplenoteSync::Note $note ) {
+    if ( $self->no_local_updates )
+    {
         return;
     }
 
     $self->logger->debugf( 'Writing note metadata for [%s]', $note->file->basename );
 
-    # XXX only write if changed? Add a dirty attr?
-    # should always be a key
-    my $metadata = { 'simplenote.key' => $note->key, };
+      # XXX only write if changed? Add a dirty attr?
+      # should always be a key
+      my $metadata = { 'simplenote.key' => $note->key, };
 
-    if ( $note->has_systags ) {
+      if ( $note->has_systags ) {
         $metadata->{'simplenote.systemtags'} = $note->join_systags( ',' );
     }
 
@@ -156,110 +155,127 @@ sub _write_note_metadata {
         $metadata->{'simplenote.tags'} = $note->join_tags( ',' );
     }
 
-    foreach my $key ( keys %$metadata ) {
+    foreach my $key ( keys %$metadata ){
         setfattr( $note->file, $key, $metadata->{$key} )
           or $self->logger->errorf( 'Error writing note metadata for [%s]', $note->file->basename );
-    }
+      }
 
-    return 1;
-}
+      return 1;
+  }
 
-sub _get_note {
-    my ( $self, $key ) = @_;
-
+  method _get_note( Str $key) {
     my $original_note = $self->simplenote->get_note( $key );
 
-    # 'cast' to our note type
-    my $note = App::SimplenoteSync::Note->new( { %{$original_note}, notes_dir => $self->notes_dir } );
+      # 'cast' to our note type
+      my $note = App::SimplenoteSync::Note->new( { %{$original_note}, notes_dir => $self->notes_dir } );
 
-    if ( $self->no_local_updates ) {
+      if ( $self->no_local_updates ) {
         return;
     }
-
     my $fh = $note->file->open( 'w' );
-    $fh->print( $note->content );
-    $fh->close;
 
-    # Set created and modified time
-    # XXX: Not sure why this has to be done twice, but it seems to on Mac OS X
-    utime $note->createdate->epoch, $note->modifydate->epoch, $note->file;
+      # data from simplenote should always be utf8
+      $fh->binmode( ':utf8' );
+      $fh->print( $note->content );
+      $fh->close;
 
-    #utime $create, $modify, $filename;
-    $self->notes->{ $note->key } = $note;
+      # Set created and modified time
+      # XXX: Not sure why this has to be done twice, but it seems to on Mac OS X
+      utime $note->createdate->epoch, $note->modifydate->epoch, $note->file;
 
-    $self->_write_note_metadata( $note );
+      #utime $create, $modify, $filename;
+      $self->notes->{ $note->key } = $note;
 
-    $self->stats->{new_remote}++;
+      $self->_write_note_metadata( $note );
 
-    return 1;
-}
+      $self->stats->{new_remote}++;
 
-sub _delete_note {
-    my ( $self, $note ) = @_;
-    if ( $self->no_local_updates ) {
+      return 1;
+  }
+
+  method _delete_note( App::SimplenoteSync::Note $note) {
+    if ( $self->no_local_updates )
+    {
+        $self->logger->warn( 'no_local_updates is set, not deleting note' );
         return;
     }
 
-    my $metadata_file = $self->metadata_dir->file( $note->key );
-    $metadata_file->remove
-      or $self->logger->warnf( 'Failed to remove metadata file: %s', $metadata_file->stringify );
+    my $removed = $note->file->remove;
+      if ( $removed ) {
+        $self->logger->debugf( 'Deleted [%s]', $note->file->stringify );
+        $self->stats->{deleted_local}++;
+    } else {
+        $self->logger->errorf( "Failed to delete [%s]: $!", $note->file->stringify );
+    }
 
     delete $self->notes->{ $note->key };
 
-    $note->file->remove
-      or $self->logger->errorf( 'Failed to remove note file: %s', $note->file->stringify );
+      return 1;
+  }
 
-    return 1;
-}
+  method _put_note( App::SimplenoteSync::Note $note) {
 
-sub _put_note {
-    my ( $self, $note ) = @_;
+    if ( !defined $note->content ) {
+        my $content;
+        try {
+            $content = $note->file->slurp;
+        }
+        catch {
+            $self->logger->error( "Failed to read file: $_" );
+            return;
+        };
 
-    my $new_key = $self->simplenote->put_note( $note );
-    if ( $new_key ) {
+        $note->content( $content );
+    }
+
+    $self->logger->infof( 'Uploading file: [%s]', $note->file->stringify );
+      my $new_key = $self->simplenote->put_note( $note );
+      if ( $new_key ) {
         $note->key( $new_key );
     }
 
     $self->{notes}->{ $note->key } = $note;
-    return 1;
-}
+      return 1;
+  }
 
-sub _merge_conflicts {
+  method merge_conflicts {
 
     # Both the local copy and server copy were changed since last sync
     # We'll merge the changes into a new master file, and flag any conflicts
     # TODO spawn some diff tool?
-    my ( $self, $key ) = @_;
 
-}
+  }
 
-sub _merge_local_and_remote_lists {
-    my ( $self, $remote_notes ) = @_;
+  method _merge_local_and_remote_lists( HashRef $remote_notes ) {
+    ;
+      $self->logger->debug( "Comparing local and remote lists" );
 
-    $self->logger->debug( "Comparing local and remote lists" );
+      # XXX what about notes which were deleted on the server, and are to be restored
+      # from local files? i.e key set locally, not existent remotely? How to tell
+      # if the file SHOULD be trashed? User option, perhaps --restore
 
-    # XXX what about notes which were deleted on the server, and are to be restored
-    # from local files? i.e key set locally, not existent remotely? How to tell
-    # if the file SHOULD be trashed? User option, perhaps --restore
-
-    # TODO check for tag changes, which don't change date
-    while ( my ( $key, $note ) = each %$remote_notes ) {
+      while ( my ( $key, $remote_note ) = each %$remote_notes ) {
         if ( exists $self->notes->{$key} ) {
+            my $local_note = $self->notes->{$key};
 
-            # which is newer?
             $self->logger->debug( "[$key] exists locally and remotely" );
 
-            # TODO check if either side has trashed this note
+            if ( $remote_note->deleted ) {
+                $self->logger->warnf( "[$key] has been trashed remotely. Deleting local copy in [%s]",
+                    $local_note->file->stringify );
+                $self->_delete_note( $local_note );
+            }
+
             # TODO changed tags don't change modifydate
             # TODO versions and merging
-            # No nanoseconds for utime
-            $note->modifydate->set_nanosecond( 0 );
+            # which is newer?
+            $remote_note->modifydate->set_nanosecond( 0 );    # utime doesn't use nanoseconds
             $self->logger->debugf(
                 'Comparing dates: remote [%s] // local [%s]',
-                $note->modifydate->iso8601,
-                $self->notes->{$key}->modifydate->iso8601
+                $remote_note->modifydate->iso8601,
+                $local_note->modifydate->iso8601
             );
-            given ( DateTime->compare_ignore_floating( $note->modifydate, $self->notes->{$key}->modifydate ) ) {
+            given ( DateTime->compare_ignore_floating( $remote_note->modifydate, $local_note->modifydate ) ) {
                 when ( 0 ) {
                     $self->logger->debug( "[$key] not modified" );
                 }
@@ -270,28 +286,40 @@ sub _merge_local_and_remote_lists {
                 }
                 when ( -1 ) {
                     $self->logger->debug( "[$key] local note is newer" );
-                    $self->_put_note( $self->notes->{$key} );
+                    $self->_put_note( $local_note );
                     $self->stats->{update_local}++;
                 }
             }
         } else {
             $self->logger->debug( "[$key] does not exist locally" );
-            if ( !$note->deleted ) {
+            if ( !$remote_note->deleted ) {
                 $self->_get_note( $key );
+            } else {
+                $self->stats->{trash}++;
             }
         }
     }
 
+    # try the other way to catch deleted notes
+    while ( my ( $key, $local_note ) = each %{ $self->notes } ) {
+        if ( !exists $remote_notes->{$key} ) {
+
+            # if a local file has metadata, specifically simplenote.key
+            # but doesn't exist remotely it must have been deleted there
+            $self->logger->warnf( "[$key] does not exist remotely. Deleting local copy in [%s]",
+                $local_note->file->stringify );
+            $self->_delete_note( $local_note );
+        }
+    }
+
     return 1;
-}
+  }
 
-# TODO: check ctime
-sub _update_dates {
-    my ( $self, $note, $file ) = @_;
-
+  # TODO: check ctime
+  method _update_dates( App::SimplenoteSync::Note $note, Path::Class::File $file ) {
     my $mod_time = DateTime->from_epoch( epoch => $file->stat->mtime );
 
-    given ( DateTime->compare( $mod_time, $note->modifydate ) ) {
+      given ( DateTime->compare( $mod_time, $note->modifydate ) ) {
         when ( 0 ) {
 
             # no change
@@ -308,10 +336,9 @@ sub _update_dates {
     }
 
     return 1;
-}
+  }
 
-sub _process_local_notes {
-    my $self = shift;
+  method _process_local_notes {
     my $num_files = scalar $self->notes_dir->children( no_hidden => 1 );
 
     $self->logger->infof( 'Scanning [%d] files in [%s]', $num_files, $self->notes_dir->stringify );
@@ -323,12 +350,9 @@ sub _process_local_notes {
         # TODO: configure file extensions, or use mime types?
         next if $f !~ /\.(txt|mkdn)$/;
 
-        my $content = $f->slurp;    # TODO: iomode + encoding
-
         my $note = App::SimplenoteSync::Note->new(
             createdate => $f->stat->ctime,
             modifydate => $f->stat->mtime,
-            content    => $content,
             file       => $f,
             notes_dir  => $self->notes_dir,
         );
@@ -348,10 +372,9 @@ sub _process_local_notes {
     return 1;
 }
 
-sub sync_notes {
-    my ( $self ) = @_;
+method sync_notes {
 
-    # then look for status of local notes
+    #  look for status of local notes
     $self->_process_local_notes;
 
     # get list of remote notes
@@ -365,14 +388,15 @@ sub sync_notes {
 
 }
 
-sub sync_report {
-    my $self = shift;
-
+method sync_report {
     $self->logger->infof( 'New local files: ' . $self->stats->{new_local} );
     $self->logger->infof( 'Updated local files: ' . $self->stats->{update_local} );
 
     $self->logger->infof( 'New remote files: ' . $self->stats->{new_remote} );
     $self->logger->infof( 'Updated remote files: ' . $self->stats->{update_remote} );
+
+    $self->logger->infof( 'Deleted local files: ' . $self->stats->{deleted_local} );
+    $self->logger->infof( 'Ignored remote trash: ' . $self->stats->{trash} );
 
 }
 
@@ -392,7 +416,7 @@ App::SimplenoteSync - Synchronise text notes with simplenoteapp.com
 
 =head1 VERSION
 
-version 0.1.1
+version 0.1.2
 
 =head1 AUTHORS
 

@@ -10,6 +10,7 @@ dist.ini
 lib/App/SimplenoteSync.pm
 lib/App/SimplenoteSync/Note.pm
 script/strip_tags.sh
+simplenotesync_debug.log
 t/00-compile.t
 t/1_note.t
 weaver.ini

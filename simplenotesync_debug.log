@@ -1,0 +1,86 @@
+2012-05-04T10:15:37::DEBUG::Reading config from /home/ioan/.config/simplenotesync.ini
+2012-05-04T10:15:37::DEBUG::======= Options ========
+2012-05-04T10:15:37::DEBUG::email: [ioan.rogers@gmail.com]
+2012-05-04T10:15:37::DEBUG::password: [******]
+2012-05-04T10:15:37::DEBUG::debug: [1]
+2012-05-04T10:15:37::DEBUG::===== End Options ======
+2012-05-04T10:15:37::INFO::Scanning [10] files in [/home/ioan/Notes]
+2012-05-04T10:15:37::DEBUG::Checking local file [/home/ioan/Notes/This_is_a_currying_test.mkdn]
+2012-05-04T10:15:37::DEBUG::Looking for metadata for [This_is_a_currying_test.mkdn]
+2012-05-04T10:15:37::DEBUG::attr: simplenote.systemtags
+2012-05-04T10:15:37::DEBUG::attr: simplenote.key
+2012-05-04T10:15:37::DEBUG::Checking local file [/home/ioan/Notes/Immigration_Doctor.txt]
+2012-05-04T10:15:37::DEBUG::Looking for metadata for [Immigration_Doctor.txt]
+2012-05-04T10:15:37::DEBUG::attr: simplenote.key
+2012-05-04T10:15:37::DEBUG::Checking local file [/home/ioan/Notes/RANDOM.txt]
+2012-05-04T10:15:37::DEBUG::Looking for metadata for [RANDOM.txt]
+2012-05-04T10:15:37::DEBUG::attr: simplenote.key
+2012-05-04T10:15:37::DEBUG::Checking local file [/home/ioan/Notes/Recipes.txt]
+2012-05-04T10:15:37::DEBUG::Looking for metadata for [Recipes.txt]
+2012-05-04T10:15:37::DEBUG::attr: simplenote.key
+2012-05-04T10:15:37::DEBUG::Checking local file [/home/ioan/Notes/UTF-8-demo.txt]
+2012-05-04T10:15:37::DEBUG::Looking for metadata for [UTF-8-demo.txt]
+2012-05-04T10:15:37::DEBUG::attr: simplenote.key
+2012-05-04T10:15:37::DEBUG::Checking local file [/home/ioan/Notes/This_is_a_note.mkdn]
+2012-05-04T10:15:37::DEBUG::Looking for metadata for [This_is_a_note.mkdn]
+2012-05-04T10:15:37::DEBUG::attr: simplenote.systemtags
+2012-05-04T10:15:37::DEBUG::attr: simplenote.key
+2012-05-04T10:15:37::DEBUG::attr: simplenote.tags
+2012-05-04T10:15:37::DEBUG::Checking local file [/home/ioan/Notes/TEST_NOTE_1.mkdn]
+2012-05-04T10:15:37::DEBUG::Looking for metadata for [TEST_NOTE_1.mkdn]
+2012-05-04T10:15:37::DEBUG::attr: simplenote.systemtags
+2012-05-04T10:15:37::DEBUG::attr: simplenote.key
+2012-05-04T10:15:37::DEBUG::Checking local file [/home/ioan/Notes/Some_stuff.txt]
+2012-05-04T10:15:37::DEBUG::Looking for metadata for [Some_stuff.txt]
+2012-05-04T10:15:37::DEBUG::attr: simplenote.key
+2012-05-04T10:15:37::DEBUG::Checking local file [/home/ioan/Notes/Immigration_Lawyer.txt]
+2012-05-04T10:15:37::DEBUG::Looking for metadata for [Immigration_Lawyer.txt]
+2012-05-04T10:15:37::DEBUG::attr: simplenote.key
+2012-05-04T10:15:37::DEBUG::Checking local file [/home/ioan/Notes/OpenLDAP.txt]
+2012-05-04T10:15:37::DEBUG::Looking for metadata for [OpenLDAP.txt]
+2012-05-04T10:15:37::DEBUG::attr: simplenote.key
+2012-05-04T10:15:37::DEBUG::Network: getting note index
+2012-05-04T10:15:37::DEBUG::Network: getting auth token
+2012-05-04T10:15:48::DEBUG::Network: Index returned [10] notes
+2012-05-04T10:15:48::DEBUG::Network: retrieving next page
+2012-05-04T10:15:54::DEBUG::Network: No more pages to retrieve
+2012-05-04T10:15:54::INFO::Network: found 10 remote notes
+2012-05-04T10:15:54::DEBUG::Comparing local and remote lists
+2012-05-04T10:15:54::DEBUG::[c38eb94c95af11e1ae2bc3198d4212a7] exists locally and remotely
+2012-05-04T10:15:54::DEBUG::Comparing dates: remote [2012-05-04T05:54:09] // local [2012-05-04T05:54:09]
+2012-05-04T10:15:54::DEBUG::[c38eb94c95af11e1ae2bc3198d4212a7] not modified
+2012-05-04T10:15:54::DEBUG::[d17112d995cf11e1a696cf57dd6557e8] exists locally and remotely
+2012-05-04T10:15:54::WARNING::[d17112d995cf11e1a696cf57dd6557e8] has been trashed remotely. Deleting local copy in [/home/ioan/Notes/RANDOM.txt]
+2012-05-04T10:15:54::DEBUG::Deleted [/home/ioan/Notes/RANDOM.txt]
+2012-05-04T10:15:54::DEBUG::Comparing dates: remote [2012-05-04T09:59:04] // local [2012-05-04T09:59:04]
+2012-05-04T10:15:54::DEBUG::[d17112d995cf11e1a696cf57dd6557e8] not modified
+2012-05-04T10:15:54::DEBUG::[c7fe0766844b11e193e3397ccaedbe87] exists locally and remotely
+2012-05-04T10:15:54::DEBUG::Comparing dates: remote [2012-04-12T03:01:21] // local [2012-04-12T03:01:21]
+2012-05-04T10:15:54::DEBUG::[c7fe0766844b11e193e3397ccaedbe87] not modified
+2012-05-04T10:15:54::DEBUG::[c020ad3095af11e19ac5e5bef3c14efe] exists locally and remotely
+2012-05-04T10:15:54::DEBUG::Comparing dates: remote [2012-05-04T05:54:09] // local [2012-05-04T05:54:09]
+2012-05-04T10:15:54::DEBUG::[c020ad3095af11e19ac5e5bef3c14efe] not modified
+2012-05-04T10:15:54::DEBUG::[c6f0948795af11e1adb0f307c63fc250] exists locally and remotely
+2012-05-04T10:15:54::DEBUG::Comparing dates: remote [2012-05-04T05:54:09] // local [2012-05-04T05:54:09]
+2012-05-04T10:15:54::DEBUG::[c6f0948795af11e1adb0f307c63fc250] not modified
+2012-05-04T10:15:54::DEBUG::[46100d3d50363a2efbd222a9711e576d] exists locally and remotely
+2012-05-04T10:15:54::DEBUG::Comparing dates: remote [2012-04-14T01:19:14] // local [2012-04-14T01:19:14]
+2012-05-04T10:15:54::DEBUG::[46100d3d50363a2efbd222a9711e576d] not modified
+2012-05-04T10:15:54::DEBUG::[7aaa451185cf11e19b78bd8bb06edab7] exists locally and remotely
+2012-05-04T10:15:54::DEBUG::Comparing dates: remote [2012-04-14T01:16:21] // local [2012-04-14T01:16:21]
+2012-05-04T10:15:54::DEBUG::[7aaa451185cf11e19b78bd8bb06edab7] not modified
+2012-05-04T10:15:54::DEBUG::[b4007b7585d511e19a2c6db93a0532d8] exists locally and remotely
+2012-05-04T10:15:54::DEBUG::Comparing dates: remote [2012-05-04T05:54:09] // local [2012-05-04T05:54:09]
+2012-05-04T10:15:54::DEBUG::[b4007b7585d511e19a2c6db93a0532d8] not modified
+2012-05-04T10:15:54::DEBUG::[d44c8c4010aff092b472fbfb420a66fc] exists locally and remotely
+2012-05-04T10:15:54::DEBUG::Comparing dates: remote [2012-05-04T09:42:44] // local [2012-05-04T09:42:44]
+2012-05-04T10:15:54::DEBUG::[d44c8c4010aff092b472fbfb420a66fc] not modified
+2012-05-04T10:15:54::DEBUG::[6ffc9bb395cf11e18f274dd6ee07139c] exists locally and remotely
+2012-05-04T10:15:54::DEBUG::Comparing dates: remote [2012-05-04T09:56:19] // local [2012-05-04T09:56:19]
+2012-05-04T10:15:54::DEBUG::[6ffc9bb395cf11e18f274dd6ee07139c] not modified
+2012-05-04T10:15:54::INFO::New local files: 0
+2012-05-04T10:15:54::INFO::Updated local files: 0
+2012-05-04T10:15:54::INFO::New remote files: 0
+2012-05-04T10:15:54::INFO::Updated remote files: 0
+2012-05-04T10:15:54::INFO::Deleted local files: 1
+2012-05-04T10:15:54::INFO::Ignored remote trash: 0

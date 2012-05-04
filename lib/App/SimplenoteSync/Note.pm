@@ -1,6 +1,6 @@
 package App::SimplenoteSync::Note;
 {
-    $App::SimplenoteSync::Note::VERSION = '0.1.1';
+    $App::SimplenoteSync::Note::VERSION = '0.1.2';
 }
 
 # ABSTRACT: stores notes in plain files,
@@ -109,7 +109,7 @@ App::SimplenoteSync::Note - stores notes in plain files,
 
 =head1 VERSION
 
-version 0.1.1
+version 0.1.2
 
 =head1 AUTHORS
 
