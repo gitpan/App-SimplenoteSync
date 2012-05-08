@@ -34,7 +34,7 @@ sub _find_scripts {
 
             # nothing to skip
             open my $FH, '<', $_ or do {
-                note( "Unable to open $found in ( $! ), skipping" );
+                note("Unable to open $found in ( $! ), skipping");
                 return;
             };
             my $shebang = <$FH>;
@@ -48,26 +48,29 @@ sub _find_scripts {
 }
 
 my @scripts;
-do { push @scripts, _find_scripts( $_ ) if -d $_ }
+do { push @scripts, _find_scripts($_) if -d $_ }
   for qw{ bin script scripts };
 
-my $plan = scalar( @modules ) + scalar( @scripts );
-$plan ? ( plan tests => $plan ) : ( plan skip_all => "no tests to run" );
+my $plan = scalar(@modules) + scalar(@scripts);
+$plan ? (plan tests => $plan) : (plan skip_all => "no tests to run");
 
 {
 
     # fake home for cpan-testers
     # no fake requested ## local $ENV{HOME} = tempdir( CLEANUP => 1 );
 
-    like( qx{ $^X -Ilib -e "require $_; print '$_ ok'" }, qr/^\s*$_ ok/s, "$_ loaded ok" ) for sort @modules;
+    like(qx{ $^X -Ilib -e "require $_; print '$_ ok'" },
+        qr/^\s*$_ ok/s, "$_ loaded ok")
+      for sort @modules;
 
   SKIP: {
         eval "use Test::Script 1.05; 1;";
-        skip "Test::Script needed to test script compilation", scalar( @scripts ) if $@;
-        foreach my $file ( @scripts ) {
+        skip "Test::Script needed to test script compilation", scalar(@scripts)
+          if $@;
+        foreach my $file (@scripts) {
             my $script = $file;
             $script =~ s!.*/!!;
-            script_compiles( $file, "$script script compiles" );
+            script_compiles($file, "$script script compiles");
         }
     }
 }

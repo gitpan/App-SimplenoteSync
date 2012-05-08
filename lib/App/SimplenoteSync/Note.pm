@@ -1,6 +1,6 @@
 package App::SimplenoteSync::Note;
 {
-    $App::SimplenoteSync::Note::VERSION = '0.1.2';
+    $App::SimplenoteSync::Note::VERSION = '0.1.3';
 }
 
 # ABSTRACT: stores notes in plain files,
@@ -8,11 +8,12 @@ package App::SimplenoteSync::Note;
 use v5.10;
 use Moose;
 use MooseX::Types::Path::Class;
+use Try::Tiny;
 use namespace::autoclean;
 
 extends 'WebService::Simplenote::Note';
 
-has '+title' => ( trigger => \&title_to_filename, );
+has '+title' => (trigger => \&_title_to_filename,);
 
 has file => (
     is      => 'rw',
@@ -30,7 +31,7 @@ has file_extension => (
             default  => 'txt',
             markdown => 'mkdn',
         };
-    }
+    },
 );
 
 # XXX should we serialise this?
@@ -42,12 +43,17 @@ has notes_dir => (
     default  => sub { return $_[0]->file->dir },
 );
 
+has ignored => (
+    is      => 'rw',
+    isa     => 'Bool',
+    traits  => ['DoNotSerialize'],
+    default => 0,
+);
+
 MooseX::Storage::Engine->add_custom_type_handler(
     'Path::Class::File' => (
-        expand   => sub { Path::Class::File->new( $_[0] ) },
-        collapse => sub { $_[0]->stringify }
-    )
-);
+        expand   => sub { Path::Class::File->new($_[0]) },
+        collapse => sub { $_[0]->stringify }));
 
 # set the markdown systemtag if the file has a markdown extension
 sub _has_markdown_ext {
@@ -57,7 +63,7 @@ sub _has_markdown_ext {
     # maybe from system mime info?
     my $ext = $self->file_extension->{markdown};
 
-    if ( $self->file =~ m/\.$ext$/ && !$self->is_markdown ) {
+    if ($self->file =~ m/\.$ext$/ && !$self->is_markdown) {
         $self->set_markdown;
     }
 
@@ -65,11 +71,11 @@ sub _has_markdown_ext {
 }
 
 # Convert note's title into file
-sub title_to_filename {
-    my ( $self, $title, $old_title ) = @_;
+sub _title_to_filename {
+    my ($self, $title, $old_title) = @_;
 
     # don't change if already set
-    if ( defined $self->file ) {
+    if (defined $self->file) {
         return;
     }
 
@@ -80,17 +86,35 @@ sub title_to_filename {
     $file =~ s/\W/_/g;
     $file .= '.';
 
-    if ( grep '/markdown/', @{ $self->systemtags } ) {
+    if (grep '/markdown/', @{$self->systemtags}) {
         $file .= $self->file_extension->{markdown};
-        $self->logger->debug( 'Note is markdown' );
+        $self->logger->debug('Note is markdown');
     } else {
         $file .= $self->file_extension->{default};
-        $self->logger->debug( 'Note is plain text' );
+        $self->logger->debug('Note is plain text');
     }
 
-    $self->file( $self->notes_dir->file( $file ) );
+    $self->file($self->notes_dir->file($file));
 
     return 1;
+}
+
+sub load_content {
+    my $self = shift;
+
+    my $content;
+
+    try {
+        $content = $self->file->slurp(iomode => '<:utf8');
+    }
+    catch {
+        $self->logger->error("Failed to read file: $_");
+        return;
+    };
+
+    $self->content($content);
+    return 1;
+
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -109,7 +133,7 @@ App::SimplenoteSync::Note - stores notes in plain files,
 
 =head1 VERSION
 
-version 0.1.2
+version 0.1.3
 
 =head1 AUTHORS
 

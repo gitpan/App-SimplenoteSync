@@ -8,11 +8,14 @@ SIGNATURE
 bin/simplenotesync
 dist.ini
 lib/App/SimplenoteSync.pm
+lib/App/SimplenoteSync.pm~
 lib/App/SimplenoteSync/Note.pm
 script/strip_tags.sh
 simplenotesync_debug.log
 t/00-compile.t
 t/1_note.t
+t/2_utf8_note.t
+t/utf8_note.txt
 weaver.ini
 xt/author/critic.t
 xt/perlcriticrc

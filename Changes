@@ -1,6 +1,33 @@
 Changelog for App-SimplenoteSync
 
-0.1.2 2012-05-04T10:20:00
+0.1.3 2012-05-08T01:57:49
+ [Ioan Rogers <ioanr@cpan.org>]
+ - Complain about and ignore files which have the same key
+
+ - Count number of local files examined
+
+ - Manually tidy methods, this is what I what I will make perltidy do
+
+ - Fixed tidy accident
+
+ - Tidied
+
+ - New critic and tidy configs
+
+ - perform utf8 tests
+
+ - Move content loading into Note, and always use utf8
+
+ - Added utf8 test file
+
+ - Better handle files without keys which fail to upload
+
+ - Handle reading metadata better, there may be other xattrs on the file
+
+ - Fix _check_notes_dir sig for calling via trigger
+
+
+v0.1.2 2012-05-04T10:16:39
  [Ioan Rogers <ioanr@cpan.org>]
  - Improved status report
 

@@ -12,7 +12,8 @@ my %module_build_args = (
     "JSON" => 0,
     "Module::Build" => "0.3601",
     "Path::Class" => 0,
-    "Test::More" => 0
+    "Test::More" => 0,
+    "Test::utf8" => 0
   },
   "configure_requires" => {
     "Module::Build" => "0.3601"
@@ -23,7 +24,7 @@ my %module_build_args = (
     "Fletcher T. Penney <owner\@fletcherpenney.net>"
   ],
   "dist_name" => "App-SimplenoteSync",
-  "dist_version" => "0.1.2",
+  "dist_version" => "0.1.3",
   "license" => "gpl",
   "module_name" => "App::SimplenoteSync",
   "recommends" => {},

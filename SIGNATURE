@@ -14,45 +14,48 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA512
 
-SHA1 fac2e158b32bc2e824658c3a9492d1fbba1865af Build.PL
-SHA1 688e39ec97e2bac28ee7da596c21cdff91b99fd4 Changes
+SHA1 fcc6cc4cc673ec06a7888ef0006dfd6658610715 Build.PL
+SHA1 f4a9780abcb8aec610e5012f19e2f87ac4d5e71d Changes
 SHA1 39e445531501775d4e1ed2908a62bef6cbdd8082 LICENSE
-SHA1 9160decd97a93fd12d433b287cf62e6b21687ac9 MANIFEST
-SHA1 b096cc897b3b4151b3a62d83b5c5fbff13b1c1c5 META.json
-SHA1 b570e847e40605a76eaa6a3fb472c5f7ae675e07 README.mkdn
-SHA1 4492f6e7c12b539a2b6e3482f20c1fb4ebb333a5 bin/simplenotesync
+SHA1 af2bce61b62de776feef817c5fc539ec91eb22e7 MANIFEST
+SHA1 4f2c57ec0dc106210d0f5ac96c2256bd8ec6807e META.json
+SHA1 8156f87aa36970582962dcf0c221b7e7d0b0930f README.mkdn
+SHA1 b91c6d36add84ba78833effceb5c803c6a9f1053 bin/simplenotesync
 SHA1 2c4eeb4718e2af6a1b76b7ba245354c8764e4ebb dist.ini
-SHA1 4e7cd4c9e65eb27f0d7a10e884b9e7a1c7e4b8c5 lib/App/SimplenoteSync.pm
-SHA1 25047b3d12dfdcd66994800a3452faf84bd04b6d lib/App/SimplenoteSync/Note.pm
+SHA1 812794ad56ae4ad733f2896653a988e34313a862 lib/App/SimplenoteSync.pm
+SHA1 99396ed589c93cac172354ee5e4855f8cd93297c lib/App/SimplenoteSync.pm~
+SHA1 118d1b3b58dc982410ea7ecc607613c680c0263c lib/App/SimplenoteSync/Note.pm
 SHA1 6e524bc51c651ec1744722315f4cf525a2d0fd5e script/strip_tags.sh
-SHA1 653b5e3b8b5527b972aec6a6dc7772b04f84ded4 simplenotesync_debug.log
-SHA1 9bd468e8c87b34681593290db6f72f049aeacb59 t/00-compile.t
-SHA1 eb1076987607a0b97003ff1ab0e9fb6b439d0c7d t/1_note.t
+SHA1 bd4a19ae927467f05c9b69ff837d7f7950127541 simplenotesync_debug.log
+SHA1 2305c191be2b48f7bca782539c249aeb5f46b53a t/00-compile.t
+SHA1 272dae172abe86d9ba58d8955bfe355f0c7f0f56 t/1_note.t
+SHA1 7560934f73c5b456c221d04e391cb24ab5692f20 t/2_utf8_note.t
+SHA1 fb38403ec5c9455b0d124ecff068e4982971d49e t/utf8_note.txt
 SHA1 4ecd064972de5144a8d86a74c249aa9f5b062ff8 weaver.ini
-SHA1 b0f2ac0b28f663d98de8369e26c2dc3fd3d4e52d xt/author/critic.t
-SHA1 7f5112b8db067e069909c32d8aacef8bcc681072 xt/perlcriticrc
-SHA1 e560d373352b9d4def0c1a22dd2bfdae31bb8c69 xt/perltidyrc
+SHA1 c1221a493fb516aed6b55b9321e3acd168ce81ef xt/author/critic.t
+SHA1 e3094e32340a9a0dcb90d91b77d66e61cbf7fa14 xt/perlcriticrc
+SHA1 98143fd89a26270feb9c17990090134e102b6a76 xt/perltidyrc
 SHA1 28ef20a73b7cf9b85585e2b7db6fc80424289134 xt/release/cpan-changes.t
 SHA1 f1df216d28e5f464bc6b68faf0b85cc0e38c7246 xt/release/kwalitee.t
 SHA1 7b52b909acf6cd52733f8f226f92147ed76a2717 xt/release/meta-json.t
-SHA1 e9a889d6b725ee070e06aae1a8ad544495322cb2 xt/release/pod-coverage.t
-SHA1 8e07652488f690f87894a492defe0a50c5c021a9 xt/release/pod-linkcheck.t
-SHA1 76430bdd89b1a5d3a4f6c988b3e059c11f41a026 xt/release/pod-no404s.t
+SHA1 a70b1e4bc5fb016448c3fad222c7e91163fbcec9 xt/release/pod-coverage.t
+SHA1 f147bbef9f1b2afd364b62a8be243f0b83f44747 xt/release/pod-linkcheck.t
+SHA1 82f40856cbbbc0ea86589931e1b2732a4b3e3bfa xt/release/pod-no404s.t
 SHA1 9934d36e45e1143c1a54658bc48872e0591af41b xt/release/pod-syntax.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.12 (GNU/Linux)
 
-iQIcBAEBCgAGBQJPo61aAAoJEOpmRc2kYGBPSOAP/AlAVcZmJeLBgkWeHg4mNrKj
-RH7+DZmxWY0Es37nqLvmSlqBnW+39aLRG8MsmpHWCuHGll45Fh4THYnbQ0dORpxD
-A1Zrnl8TcNwAdCnM/JLWBFYx7Sc2CuJyGvl9YuCsW4Uq/xZyWOaL8MMduf8kpXV+
-qIIp+OqLaf5AqvqvSIEVvTrYv0H4HKxo4ZEBbDocyq8MU835VBzp22WwA5pO5kBt
-3/VjLBqrGKfGsoGuh3GiJNaIhU8LaPWLxLRAOgQSeYMwXzNr7S65qWPtWtxaAz+F
-xsMounvLn9QML4ujRb3OLjPLvWGJ/dYJ0Ei56ABIIwluAoL6ufCrXKfZMfmPo9Vg
-w1hBk8JjyQfZF277MEqh5KeqxQpJ/hm1tFF/NZ1FaT0hAxrClUyBH4XzDgFFtjzx
-Ep57pFX3Rm3mT2ss1JFIrwRRUxwrhiAbUXu/2p0dG9SkUMoHP0lgR4vZfjm/dwli
-0Yywcoliw+MpIyNaBB+olX+ZXA+Rwq3XpnIbEwgMXAPqYsCI/PWjqAhK67KWfbIK
-F+ZwzvZ1XE0BVZGODd7CHK8QIslp9mYNrf64oN2o5TnCgezkyS+nUJIRO1IBJK2S
-r4VdDCBtOeaoWaY1+JbZLbuChTizYv+HhZA3s0L/O+zFETv47H6qUdVTAy1aV6QC
-7xC7rfBp+YEOGwvFHCKC
-=DvGU
+iQIcBAEBCgAGBQJPqH2iAAoJEOpmRc2kYGBP54QP/jZ68ZdEmwVSt+dZdMQQBTKr
+rVOuiB073Uoi2H/6XKfsNP7b4SbUmPs76SFoBpLIfbfhDTkmyQq608J+qQrTkxaa
+Pde4nJfOra/kTfNSjkT823uGnQFHebe1ZnfvcSk0MGfAfZKBY3zswYgmngXyz10d
+XWq+pgLML1KOkQ26e+uZx16fZf+buPuMphb0485nCuUXgKN3RxHVLwC6PRfWZGXx
+URrvr7BJyK/ohiqHgb1O8nW2HQryHW/3wSwgaK2hRj/akLn1WIA6nSs5CuYfkVqN
+hnHSdRH49Bzo5z+fb7UdrT1IbTg5WyrgaQYNvpJV7Ltm/avo+FEwrwbTuW3qmbzi
+weohnhkJyv8ayEpMZlsmF3S2TWo5xyNuAu3wAl390NYUXACUZS2loa+rO/QAQB+v
+rcQCe/XU1atYhG8LU7+DlqQOtvorH9JLc7KkF6MZJnWtBEykzwtSe41QCSRDa2yu
+cb6Udgg4+JQIzRiS8HT3mAGQGE7hjVUv6j4IBGdvF6ru73z1GRQ0KBTjIwrd5yjA
+A+R3kk/XaWcTXHSa0oB+fFg+SBu67L/9vxfw+ue8mLj+gZKMpiJj/sQTkRvxCftS
+Ie4gN4iC4hTW48F3OUDLber9cVbrE60l/U1KEDTFR+6U+HrIDp8b6BTuJ4Q2gavR
+pViehOf3ovMmmC6IQK4N
+=Q41A
 -----END PGP SIGNATURE-----
