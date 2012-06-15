@@ -12,19 +12,23 @@ use Pod::Usage;
 use Config::INI::Reader;
 use Log::Dispatch;
 use Log::Any::Adapter;
-use YAML::Any;
+use Try::Tiny;
 
 my $logger;
 
 our $PROGNAME = 'simplenotesync';
 
-my $opt = {};
+my $opt = {action => 'sync'};
 
 sub get_opts {
-    my $getopt =
-      GetOptions($opt, 'help|h', 'man', 'debug|d!', 'version|v',
-        'no_server_updates!', 'no_local_updates!', 'email=s', 'password=s',
-        'quiet|q!');
+    my $getopt = GetOptions(
+        $opt,                'help|h',
+        'man',               'debug|d!',
+        'version|v',         'no_server_updates!',
+        'no_local_updates!', 'email=s',
+        'password=s',        'quiet|q!',
+        'edit|e=s',          'editor=s'
+    );
 
     if ($getopt == 0 or defined $opt->{help}) {
         pod2usage;
@@ -38,6 +42,10 @@ sub get_opts {
 
     if (defined $opt->{man}) {
         pod2usage(-verbose => 2);
+    }
+
+    if (defined $opt->{edit}) {
+        $opt->{action} = 'edit';
     }
 
     # is there a path on the command line?
@@ -103,8 +111,18 @@ sub get_logger {
 sub get_config {
     my $conf_dir  = Path::Class::Dir->new(File::BaseDir->config_home);
     my $conf_file = $conf_dir->file("$PROGNAME.ini");
-    $logger->debug("Reading config from $conf_file");
-    my $config = Config::INI::Reader->read_file($conf_file);
+    $logger->debug("Trying to read config from $conf_file");
+
+    my $config;
+    try {
+        $config = Config::INI::Reader->read_file($conf_file);
+    }
+    catch {
+        if (!exists $opt->{email} || !exists $opt->{password}) {
+            die
+              "--email and/or --password missing from command line, and failed to read config file: $_";
+        }
+    };
 
     # merge config opts - cli opts take precedence
     foreach my $key (keys %{$config->{_}}) {
@@ -135,12 +153,18 @@ get_config;
 
 my $app = App::SimplenoteSync->new($opt);
 
-my $notes = $app->sync_notes;
+given ($opt->{action}) {
+    when ('edit') {
+        $app->edit($opt->{edit});
+    }
+    default {
+        my $notes = $app->sync_notes;
+        $app->sync_report;
+    }
+}
 
-$app->sync_report;
 
-
-
+__END__
 =pod
 
 =for :stopwords Ioan Rogers Fletcher T. Penney github
@@ -151,7 +175,7 @@ simplenotesync
 
 =head1 VERSION
 
-version 0.1.3
+version 0.2.0
 
 =head1 SYNOPSIS
 
@@ -167,6 +191,8 @@ simplenotesync [options] [pathname]
    --password              password used for simplenote account
    --no_server_updates     don't modify notes on server
    --no_local_updates      don't modify notes locally
+   --edit                  edit a note, preserving xattrs
+   --editor                override $ENV{EDITOR}
 
   [pathname] is the local notes folder to syncronise with. Defaults to $HOME/Notes.
   
@@ -193,7 +219,7 @@ F<simplenotesync.ini> in your config dir, usually ~/.config.
 
 It is an ini file, supporting the following keys:
 
-  email, password, notes_dir, no_server_updates, no_local_updates
+  email, password, notes_dir, no_server_updates, no_local_updates, editor
 
 =head1 KNOWN ISSUES
 
@@ -291,7 +317,4 @@ The development version is on github at L<http://github.com/ioanrogers/App-Simpl
 and may be cloned from L<git://github.com/ioanrogers/App-SimplenoteSync.git>
 
 =cut
-
-
-__END__
 

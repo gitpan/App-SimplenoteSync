@@ -1,6 +1,6 @@
 package App::SimplenoteSync::Note;
 {
-    $App::SimplenoteSync::Note::VERSION = '0.1.3';
+  $App::SimplenoteSync::Note::VERSION = '0.2.0';
 }
 
 # ABSTRACT: stores notes in plain files,
@@ -13,19 +13,23 @@ use namespace::autoclean;
 
 extends 'WebService::Simplenote::Note';
 
+use Method::Signatures;
+
 has '+title' => (trigger => \&_title_to_filename,);
 
 has file => (
-    is      => 'rw',
-    isa     => 'Path::Class::File',
-    coerce  => 1,
-    trigger => \&_has_markdown_ext,
+    is        => 'rw',
+    isa       => 'Path::Class::File',
+    coerce    => 1,
+    traits    => ['NotSerialised'],
+    trigger   => \&_has_markdown_ext,
+    predicate => 'has_file',
 );
 
 has file_extension => (
     is      => 'ro',
     isa     => 'HashRef',
-    traits  => ['DoNotSerialize'],
+    traits  => ['NotSerialised'],
     default => sub {
         {
             default  => 'txt',
@@ -34,33 +38,30 @@ has file_extension => (
     },
 );
 
-# XXX should we serialise this?
 has notes_dir => (
     is       => 'ro',
     isa      => 'Path::Class::Dir',
-    traits   => ['DoNotSerialize'],
+    traits   => ['NotSerialised'],
     required => 1,
-    default  => sub { return $_[0]->file->dir },
+    default  => sub {
+        my $self = shift;
+        if ($self->has_file) {
+            return $self->file->dir;
+        } else {
+            return Path::Class::Dir->new($ENV{HOME}, 'Notes');
+        }
+    },
 );
 
 has ignored => (
     is      => 'rw',
     isa     => 'Bool',
-    traits  => ['DoNotSerialize'],
+    traits  => ['NotSerialised'],
     default => 0,
 );
 
-MooseX::Storage::Engine->add_custom_type_handler(
-    'Path::Class::File' => (
-        expand   => sub { Path::Class::File->new($_[0]) },
-        collapse => sub { $_[0]->stringify }));
-
 # set the markdown systemtag if the file has a markdown extension
-sub _has_markdown_ext {
-    my $self = shift;
-
-    # TODO an array of possibilities? e.g. mkdn, markdown, md
-    # maybe from system mime info?
+method _has_markdown_ext(@_) {
     my $ext = $self->file_extension->{markdown};
 
     if ($self->file =~ m/\.$ext$/ && !$self->is_markdown) {
@@ -71,8 +72,7 @@ sub _has_markdown_ext {
 }
 
 # Convert note's title into file
-sub _title_to_filename {
-    my ($self, $title, $old_title) = @_;
+method _title_to_filename(Str $title, Str $old_title?) {
 
     # don't change if already set
     if (defined $self->file) {
@@ -99,9 +99,7 @@ sub _title_to_filename {
     return 1;
 }
 
-sub load_content {
-    my $self = shift;
-
+method load_content {
     my $content;
 
     try {
@@ -114,7 +112,22 @@ sub load_content {
 
     $self->content($content);
     return 1;
+}
 
+method save_content {
+    try {
+        my $fh = $self->file->open('w');
+
+        # data from simplenote should always be utf8
+        $fh->binmode(':utf8');
+        $fh->print($self->content);
+    }
+    catch {
+        $self->logger->error("Failed to write content to file: $_");
+        return;
+    };
+
+    return 1;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -122,7 +135,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
 =pod
 
 =for :stopwords Ioan Rogers Fletcher T. Penney github
@@ -133,7 +145,7 @@ App::SimplenoteSync::Note - stores notes in plain files,
 
 =head1 VERSION
 
-version 0.1.3
+version 0.2.0
 
 =head1 AUTHORS
 
@@ -168,3 +180,4 @@ The development version is on github at L<http://github.com/ioanrogers/App-Simpl
 and may be cloned from L<git://github.com/ioanrogers/App-SimplenoteSync.git>
 
 =cut
+

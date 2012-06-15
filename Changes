@@ -1,6 +1,24 @@
 Changelog for App-SimplenoteSync
 
-0.1.3 2012-05-08T01:57:49
+0.2.0 2012-06-15T03:26:40
+ [Ioan Rogers <ioanr@cpan.org>]
+ - Require minumum version of WebService::Simplenote
+
+ - Added an --edit option to edit notes and preserve xattrs. Closes #7
+
+ - Config file is now optional. Closes #14
+
+ - Support new WebService::Simpltenote api, fix default for Note->notes_dir
+
+ - Removed debug dependency on YAML::Any, fixed prereq for
+   Log::Any::Adapter::Dispatch
+
+ - Method::Signatures for Note too
+
+ - TODOs changed to github issues
+
+
+v0.1.3 2012-05-05T20:18:12
  [Ioan Rogers <ioanr@cpan.org>]
  - Complain about and ignore files which have the same key
 
